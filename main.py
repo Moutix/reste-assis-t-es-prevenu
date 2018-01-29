@@ -1,55 +1,32 @@
 """ Little script which display out next incomming metro """
-
-import collections
-
-import requests
-
-URL = "https://api-ratp.pierre-grimaud.fr/v3/schedules/{type}/{line}/{station}/{dest}"
-
-LINE = 8
-LINE_NOCTILIENS = [32, 35]
-STATION = "maisons+alfort+les+juilliottes"
-STATION_NOCTILIEN = "viet"
-
-LINES = [
-    ("metros", 8, "maisons+alfort+les+juilliottes", "A+R"),
-    ("noctiliens", 32, "viet", "R"),
-    ("noctiliens", 35, "viet", "R"),
-]
-
-
-def get_schedules(line, station, ttype="metros", dest="A+R"):
-    """ Get the next metro for a given station and line """
-
-    try:
-        res = requests.get(URL.format(type=ttype, line=line, station=station, dest=dest)).json()
-    except requests.RequestException as err:
-        print("Fail to fetch data from %s: %s", URL, err)
-        return []
-
-    identifier = "%s%s"% (ttype[0].upper(), line)
-
-    result = collections.defaultdict(list)
-    for data in res["result"].get("schedules", []):
-        time = data["message"].split(" ")[0]
-        try:
-            time = int(time)
-        except ValueError:
-            continue
-
-        result[data["destination"]].append(time)
-
-    return [[identifier, k, v] for k, v in result.items()]
-
-def get_all_schedules(lines=LINES):
-    """ Get all the schedules for the given lines """
-
-    for ttype, line, station, dest in lines:
-        yield from get_schedules(line, station, ttype, dest)
+import time
+from ht1632 import HT1632C
+from wifi import *
+from config import *
+from ratp_api import *
 
 def main():
-    """ Main script """
-    print(list(get_all_schedules()))
+	ConnectWifi(SSID, PASSWORD)
+	time.sleep(10)
+	led = HT1632C(DATAPIN, CLKPIN, CSPIN)
+	led.fill(0)
+	led.show()
+	M8MALJ = LINES[0]
+	SchM8MALJ = Schedules(M8MALJ[0], M8MALJ[1], M8MALJ[2], M8MALJ[3])
+	while True:
+		Sched = []
+		while Sched == [] :
+			Sched = SchM8MALJ.getSchedules()
+		sc = str(Sched)
+		print(sc)
+		led.text(sc, 0, 0)
+		leng = 10*len(sc)
+		while leng > 0:
+			led.scroll(-1,0)
+			led.show()
+			leng -= 1
+		#time.sleep(20)
+		led.fill(0)
 
 if __name__ == "__main__":
-    main()
+	main()
