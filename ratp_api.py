@@ -21,7 +21,7 @@ class Schedules():
 			time = data["message"].split(" ")[0]
 			try:
 				time = int(time)
-				if time < 3 :
+				if time < 5 :
 					continue
 			except ValueError:
 				continue

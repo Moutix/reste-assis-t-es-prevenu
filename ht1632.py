@@ -34,6 +34,7 @@ class HT1632C():
 		self.pages = self.height // 8
 		self.buffer = bytearray(self.pages * self.width)
 		self.framebuf = framebuf.FrameBuffer(self.buffer, self.width, self.height, framebuf.MVLSB)
+		self.setfont(framebuf.FONT_5x7W)
 		self.begin()
 	def begin(self):
 		for cmd in (
@@ -82,6 +83,8 @@ class HT1632C():
 		self.framebuf.scroll(dx, dy)
 	def text(self, string, x, y, col=1):
 		self.framebuf.text(string, x, y, col)
+	def setfont(self, font):
+		self.framebuf.setfont(font)
 	def hline(self, x, y, w, col):
 		self.framebuf.hline(x, y, w, col)
 	def vline(self, x, y, h, col):

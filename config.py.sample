@@ -1,0 +1,15 @@
+SSID="MyWifi"
+PASSWORD="MyWifiPassword"
+
+DATAPIN = 10
+CLKPIN = 13
+CSPIN = 25
+
+LINES = [
+	("metros", 14, "chatelet", "A+R"),
+	("rers", "A", "gare+de+lyon", "R"),
+	("tramways", "3a", "porte+de+vincennes", "A"),
+	("bus", 20, "gare+de+lyon", "A"),
+	("noctiliens", 22, "chatelet", "A+R"),
+]
+
