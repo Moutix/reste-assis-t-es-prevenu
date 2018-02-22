@@ -34,7 +34,7 @@ class HT1632C():
 		self.pages = self.height // 8
 		self.buffer = bytearray(self.pages * self.width)
 		self.framebuf = framebuf.FrameBuffer(self.buffer, self.width, self.height, framebuf.MVLSB)
-		self.setfont(framebuf.FONT_5x7W)
+		self.setfont(framebuf.FONT_5x7)
 		self.begin()
 	def begin(self):
 		for cmd in (

@@ -28,10 +28,10 @@ def main():
 
 		led.fill(0)
 		led.text(' '+sc, 0, 0)
-		leng = 8*len(sc)
+		leng = 5*len(sc)+5
 		time.sleep(0.1)
 		while leng > 0:
-			time.sleep(0.1)
+			time.sleep(0.025)
 			led.scroll(-1,0)
 			led.show()
 			leng -= 1
