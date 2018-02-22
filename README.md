@@ -1,2 +1,2 @@
 # reste-assis-t-es-prevenu
-You need to patch micropython and micropython-lib sources and rebuild micropython to be able to run this.
+You need to patch and rebuild micropython source to be able to run this.
